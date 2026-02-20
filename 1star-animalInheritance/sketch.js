@@ -1,5 +1,5 @@
 function setup() {
-    createCanvas(0, 0);
+    createCanvas(600, 600);
 
     // Test your code by creating objects, calling their methods, and printing the output to the console
     const brian = new Animal("Brian", 95, 10);
@@ -7,8 +7,26 @@ function setup() {
 
     const pete = new FurryAnimal("Peter", 50, 3, color(255, 0, 0));
     console.log(pete.call());
+
+    // TEST BIRD
+    const pedro = new Bird('Pedro', 60, 2, 'short');
+    console.log('Bird call:', pedro.call());
+    console.log('Bird beak:', pedro.getBeakType());
+
+        // TEST CAT
+    const whiskers = new Cat('Whiskers', 80, 4, color(200, 200, 200));
+    console.log('Cat call:', whiskers.call());
+
+        // TEST DOG
+    const rex = new Dog('Rex', 90, 5, color(150, 75, 0));
+    console.log('Dog call:', rex.call());
+    console.log('Dog fur color:', rex.getFurColour());
 }
 
+function draw() {
+    background(255);
+    
+}
 
 /**
  * Represents an Animal
@@ -123,9 +141,53 @@ class FurryAnimal extends Animal {
 
     /**
      * Gets the animal's fur colour.
-     * @returns {Color}
+     * @returns {color}
      */
     getFurColour() {
         return this.#furColour;
+    }
+}
+
+class Bird extends Animal {
+    #beakType
+
+    constructor(name, health, age, beakType) {
+        super(name, health, age);
+        this.#beakType = beakType;
+    }
+
+    getBeakType() {
+        return this.#beakType
+    }
+
+    decreaseHealth() {
+        for (let i = 0; i < 5; i++) {
+            super.decreaseHealth();
+        }
+    }
+}
+
+class Cat extends FurryAnimal {
+
+    jumpAt(bird) {
+        this.moveX(bird.getX());
+        this.moveY(bird.getY());
+        bird.DecreaseHealth();
+    }
+
+    call() {
+        return 'meow'; 
+    }
+}
+
+class Dog extends FurryAnimal {
+    barkAt(cat) {
+        const dx = cat.getX() - this.getX();
+        const dy = cat.getY() - this.getY();
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 50) {
+            console.log('Woof!');
+        }
     }
 }
